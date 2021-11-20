@@ -1,0 +1,163 @@
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("../assets/fonts/Gilroy-Bold.woff") format("woff"), url("../assets/fonts/Gilroy-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: bold;
+}
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("../assets/fonts/Gilroy-Medium.woff") format("woff"), url("../assets/fonts/Gilroy-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("../assets/fonts/Gilroy-RegularItalic.woff") format("woff"), url("../assets/fonts/Gilroy-RegularItalic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+* {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+aside,
+nav,
+footer,
+header,
+section {
+  display: block;
+}
+
+html,
+body {
+  min-width: 320px;
+}
+
+body {
+  line-height: 1;
+  font-family: "Gillroy";
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+  font-family: "Gillroy";
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+body {
+  min-width: 320px;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  background: url("img/main-screen/main_background.jpg") center/cover, black no-repeat;
+}
+body._lock {
+  overflow: hidden;
+}
+
+.wrapper {
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+._container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+@media (max-width: 1452px) {
+  ._container {
+    padding: 0 20px;
+  }
+}
+@media (max-width: 1070px) {
+  ._container {
+    max-width: 1024px;
+  }
+}
+@media (max-width: 768.98px) {
+  ._container {
+    max-width: 768px;
+  }
+}
+@media (max-width: 479.98px) {
+  ._container {
+    max-width: 420px;
+  }
+}
+@media (max-width: 360.98px) {
+  ._container {
+    max-width: none;
+  }
+}
+
+.page {
+  flex: 1 1 auto;
+}
