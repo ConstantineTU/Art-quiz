@@ -15,35 +15,44 @@
 
 	<div class="wrapper">
 		<div class="overlay"></div>
-		<div class="settings">
+		<div id="settings-window" class="settings">
 			<div class="settings-header">
-				<div class="settings-header_exit-icon"></div>
-				<div class="settings-header_title">Stting</div>
+				<div class="settings-header_title">Settings</div>
+				<div id="settings-close" class="settings-header_exit-icon"></div>
 			</div>
 			<div class="settings-main">
-				<div class="settings-main_volume-container">
-					<h3 class="settings-main_volume-title">Volume</h3>
+				<div class="settings-main_volume-container settings-main-container">
+					<h3 class="settings-main_volume-title  settings-title">Volume</h3>
 					<div class="settings-main_volume">
-						<input type="range" name="volume-range" id="settings-volume" min="0" max="1" step="0.01">
+						<input class="settings-main_volume-range" type="range" name="volume-range" id="settings-volume"
+							min="0" max="1" step="0.01">
 					</div>
-					<div class="settings-main_volume-icons"></div>
+					<div class="settings-main_volume-icons">
+
+						<div class="settings-main_volume-icons-off">
+
+						</div>
+						<div class="settings-main_volume-icons-on">
+
+						</div>
+					</div>
 				</div>
-				<div class="settings-main_timegame-container">
-					<h3 class="settings-main_timegame-title">Time game</h3>
-					<div class="settings-main_timegame">
+				<div class="settings-main_timegame-container settings-main-container">
+					<h3 class="settings-main_timegame-title  settings-title">Time game</h3>
+					<div class="settings-main_timegame active">
 						On
 					</div>
 				</div>
-				<div class="settings-main_amount-container">
-					<h3 class="settings-main_amount-title">Time to answer</h3>
+				<div class="settings-main_amount-container settings-main-container">
+					<h3 class="settings-main_amount-title settings-title">Time to answer</h3>
 					<div class="settings-main_amount-wrap">
-						<span class="settings-main_amount-minus">
-						</span>
-						<span class="settings-main_amount">
+						<div class="settings-main_amount-minus">
+						</div>
+						<div class="settings-main_amount">
 							20
-						</span>
-						<span class="settings-main_amount-plus">
-						</span>
+						</div>
+						<div class="settings-main_amount-plus">
+						</div>
 					</div>
 				</div>
 				<div class="settings-buttons-container">
@@ -54,7 +63,7 @@
 		</div>
 		<header class="header">
 	<div class="header-settings">
-		<div class="header-settings_icon"></div>
+		<div id="settings-open" class="header-settings_icon"></div>
 	</div>
 </header>
 		<div class="page">
