@@ -15,18 +15,70 @@
 
 	<div class="wrapper">
 		<div class="overlay"></div>
+		<div class="settings">
+			<div class="settings-header">
+				<div class="settings-header_exit-icon"></div>
+				<div class="settings-header_title">Stting</div>
+			</div>
+			<div class="settings-main">
+				<div class="settings-main_volume-container">
+					<h3 class="settings-main_volume-title">Volume</h3>
+					<div class="settings-main_volume">
+						<input type="range" name="volume-range" id="settings-volume" min="0" max="1" step="0.01">
+					</div>
+					<div class="settings-main_volume-icons"></div>
+				</div>
+				<div class="settings-main_timegame-container">
+					<h3 class="settings-main_timegame-title">Time game</h3>
+					<div class="settings-main_timegame">
+						On
+					</div>
+				</div>
+				<div class="settings-main_amount-container">
+					<h3 class="settings-main_amount-title">Time to answer</h3>
+					<div class="settings-main_amount-wrap">
+						<span class="settings-main_amount-minus">
+						</span>
+						<span class="settings-main_amount">
+							20
+						</span>
+						<span class="settings-main_amount-plus">
+						</span>
+					</div>
+				</div>
+				<div class="settings-buttons-container">
+					<button id="settings-default" class="button_menu">Default</button>
+					<button id="settings-save" class="button_menu">Save</button>
+				</div>
+			</div>
+		</div>
 		<header class="header">
-
+	<div class="header-settings">
+		<div class="header-settings_icon"></div>
+	</div>
 </header>
 		<div class="page">
 			<main class="main">
-
+				<div class="title-cotainer">
+					<h1 class="title">Art Quiz</h1>
+					<div class="categories-container">
+						<button id="categories-artist" class=" button_menu">Artist quiz</button>
+						<button id="categories-pictures" class=" button_menu">Pictures quiz</button>
+					</div>
+				</div>
 			</main>
 		</div>
 		<footer class="footer">
 	<div class="footer-container">
-
-
+		<a class="links" href="https://rs.school/js/" target="_blank">
+			<div class="footer-rslogo"></div>
+		</a>
+		<div class="footer-author">
+			<a class="links" href="https://github.com/ConstantineTU" target="_blank">
+				<div class="footer-author_name">App developer: ConstantineTU</div>
+			</a>
+			<div class="footer-author_year">2021</div>
+		</div>
 	</div>
 </footer>
 	</div>
