@@ -146,13 +146,14 @@ class Routing {
 					</div>
 				</div>
 			`;
-      this.buttonsClick.forEach((click) => {
+      this.buttonsClick.forEach((clickBtn) => {
+        const click = clickBtn;
         click.onclick = () => this.sound.playSound(this.audioClick);
       });
       this.main.innerHTML = this.artistCategories;
       this.artistItemImg = document.querySelectorAll('.artist_item-img');
       this.artistItemImg.forEach((artist) => {
-        artist.parentElement.parentElement.addEventListener('click', function () {
+        artist.parentElement.parentElement.addEventListener('click', () => {
           localStorage.setItem(`artist.id${this.id}`, this.id);
           console.log(this.id);
         });
@@ -188,7 +189,8 @@ class Routing {
 					</div>
 				</div>
 			`;
-      this.buttonsClick.forEach((click) => {
+      this.buttonsClick.forEach((clickBtn) => {
+        const click = clickBtn;
         click.onclick = () => {
           this.sound.playSound(this.audioClick);
         };
@@ -196,7 +198,7 @@ class Routing {
       this.main.innerHTML = this.picturesCategories;
       this.picturesItemImg = document.querySelectorAll('.pictures_item-img');
       this.picturesItemImg.forEach((picture) => {
-        picture.parentElement.parentElement.addEventListener('click', function () {
+        picture.parentElement.parentElement.addEventListener('click', () => {
           localStorage.setItem(`picture.id${this.id}`, this.id);
           console.log(this.id);
         });
@@ -237,7 +239,8 @@ class Routing {
           this.modalButtonNextQuiz.parentElement.dataset.href = `#/artist-question-${1}/`;
         };
       }
-      this.modalButtons.forEach((button) => {
+      this.modalButtons.forEach((buttonBtn) => {
+        const button = buttonBtn;
         button.onclick = () => {
           button.parentElement.href = `#/artist-question-${location.split('-', 3)[2].split('/', 1)}/`;
           button.parentElement.dataset.href = `#/artist-question-${location.split('-', 3)[2].split('/', 1)}/`;
@@ -295,7 +298,8 @@ class Routing {
         timeGame(this.fiveMinutes, this.display, location);
       }
 
-      this.buttonsClick.forEach((click) => {
+      this.buttonsClick.forEach((clickBtn) => {
+        const click = clickBtn;
         click.onclick = () => this.sound.playSound(this.audioClick);
       });
       const headerIconExit = document.getElementById('questions-author-header-main');
@@ -394,7 +398,8 @@ class Routing {
           this.modalButtonNextQuiz.parentElement.dataset.href = `#/picture-question-${12}/`;
         };
       }
-      this.modalButtons.forEach((button) => {
+      this.modalButtons.forEach((buttonBtn) => {
+        const button = buttonBtn;
         button.onclick = () => {
           button.parentElement.href = `#/picture-question-${location.split('-', 3)[2].split('/', 1)}/`;
           button.parentElement.dataset.href = `#/picture-question-${location.split('-', 3)[2].split('/', 1)}/`;
@@ -462,7 +467,8 @@ class Routing {
         this.fiveMinutes = this.countTime.dataset.value;
         timeGame(this.fiveMinutes, this.display, location);
       }
-      this.buttonsClick.forEach((click) => {
+      this.buttonsClick.forEach((clickBtn) => {
+        const click = clickBtn;
         click.onclick = () => {
           this.sound.playSound(this.audioClick);
         };
@@ -536,7 +542,8 @@ class Routing {
       this.header.classList.remove('active');
       this.header.innerHTML = this.mainHeader;
       this.main.innerHTML = this.mainHtml;
-      this.buttonsClick.forEach((click) => {
+      this.buttonsClick.forEach((clickBtn) => {
+        const click = clickBtn;
         click.onclick = () => {
           this.sound.playSound(this.audioClick);
         };
@@ -587,9 +594,12 @@ class Routing {
   }
 
   repeatTimer(diff, display, location) {
+    this.diff = diff;
+    this.display = display;
+    this.location = location;
     const modalExiteIcon = document.querySelector('.modal-exite-icon');
     modalExiteIcon.addEventListener('click', () => {
-      timeGame(diff, display, location);
+      timeGame(this.diff, this.display, this.location);
     });
   }
 
