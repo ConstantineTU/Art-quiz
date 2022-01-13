@@ -1,6 +1,7 @@
-import Questions from './questions';
+import Questions from './questions'; // eslint-disable-line
 import Sound from './sound';
-import Settings from './settings';
+import Settings from './settings'; // eslint-disable-line
+import timeGame from './time-game';
 
 class Routing {
   constructor() {
@@ -492,7 +493,7 @@ class Routing {
         });
       });
       this.artistItemImg.forEach((artist) => {
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < 12; i += 1) {
           if (artist.parentElement.parentElement.id === localStorage.getItem(`artist.id${i}`)) {
             artist.parentElement.classList.add('active');
             artist.classList.add('active');
@@ -536,7 +537,7 @@ class Routing {
         });
       });
       this.picturesItemImg.forEach((picture) => {
-        for (let i = 12; i < 24; i++) {
+        for (let i = 12; i < 24; i += 1) {
           if (picture.parentElement.parentElement.id === localStorage.getItem(`picture.id${i}`)) {
             picture.parentElement.classList.add('active');
             picture.classList.add('active');
@@ -626,7 +627,7 @@ class Routing {
       if (this.isTimeGame.classList.contains('active')) {
         this.display = document.querySelector('.questions-author-time_count');
         this.fiveMinutes = this.countTime.dataset.value;
-        this.settings.getTimeGame(this.fiveMinutes, this.display, location);
+        timeGame(this.fiveMinutes, this.display, location);
       }
 
       this.buttonsClick.forEach((click) => {
@@ -653,25 +654,25 @@ class Routing {
       const bullets = document.querySelectorAll('.questions-author-bullet');
       if (this.i === 0 || this.i % 10 === 0) {
         let result = 0;
-        for (let j = 0; j <= 9; j++) {
+        for (let j = 0; j <= 9; j += 1) {
           if (localStorage.getItem(`bullet${j}`) === '#3dda69') {
-            result++;
+            result += 1;
           }
         }
         this.modalEndResult.textContent = result;
         this.i = location.split('-', 3)[2].split('/', 1) * 10;
-        for (let j = 0; j <= bullets.length; j++) {
+        for (let j = 0; j <= bullets.length; j += 1) {
           localStorage.removeItem(`bullet${j}`);
         }
       }
-      for (let j = 0; j < bullets.length; j++) {
+      for (let j = 0; j < bullets.length; j += 1) {
         if (localStorage.getItem(`bullet${j}`) && j !== bullets.length - 1) {
           bullets[j].style.background = localStorage.getItem(`bullet${j}`);
         }
       }
 
       const answers = document.querySelectorAll('.questions-author-answer');
-      for (let i = 0; i < answers.length; i++) {
+      for (let i = 0; i < answers.length; i += 1) {
         answers[i].onclick = async () => {
           if (answers[i].textContent === this.author) {
             localStorage.setItem(`bullet${this.j}`, '#3dda69');
@@ -701,7 +702,7 @@ class Routing {
           }
         };
       }
-      this.i++;
+      this.i += 1;
     } else if (location.includes('#/picture-question-')) {
       if (+location.split('-', 3)[2].split('/', 1) + 1 < 24) {
         this.modalButtonNextQuiz.parentElement.href = `#/picture-question-${
@@ -794,7 +795,7 @@ class Routing {
       if (this.isTimeGame.classList.contains('active')) {
         this.display = document.querySelector('.questions-picture-time_count');
         this.fiveMinutes = this.countTime.dataset.value;
-        this.settings.getTimeGame(this.fiveMinutes, this.display, location);
+        timeGame(this.fiveMinutes, this.display, location);
       }
       this.buttonsClick.forEach((click) => {
         click.onclick = () => {
@@ -822,24 +823,24 @@ class Routing {
       const bullets = document.querySelectorAll('.questions-picture-bullet');
       if (this.i === 0 || this.i % 10 === 0) {
         let result = 0;
-        for (let j = 0; j <= 9; j++) {
+        for (let j = 0; j <= 9; j += 1) {
           if (localStorage.getItem(`bullet${j}`) === '#3dda69') {
-            result++;
+            result += 1;
           }
         }
         this.modalEndResult.textContent = result;
         this.i = location.split('-', 3)[2].split('/', 1) * 10;
-        for (let j = 0; j <= bullets.length; j++) {
+        for (let j = 0; j <= bullets.length; j += 1) {
           localStorage.removeItem(`bullet${j}`);
         }
       }
-      for (let j = 0; j < bullets.length; j++) {
+      for (let j = 0; j < bullets.length; j += 1) {
         if (localStorage.getItem(`bullet${j}`) && j !== bullets.length - 1) {
           bullets[j].style.background = localStorage.getItem(`bullet${j}`);
         }
       }
       const answers = document.querySelectorAll('.questions-picture-answer-img');
-      for (let i = 0; i < answers.length; i++) {
+      for (let i = 0; i < answers.length; i += 1) {
         answers[i].onclick = async () => {
           if (answers[i].src === this.pictureMini) {
             this.modalIconPicture.style.background = `url("./assets/img/svg/correct_answer.svg") no-repeat`;
@@ -862,7 +863,7 @@ class Routing {
           }
         };
       }
-      this.i++;
+      this.i += 1;
     } else if ('#/') {
       this.body.style.background = `rgba(0, 0, 0) url("./assets/img/main-screen/main_background2.jpg") no-repeat scroll center center /
 			cover`;
@@ -891,7 +892,7 @@ class Routing {
   toLongAnswerAuthor() {
     const bullets = document.querySelectorAll('.questions-author-bullet');
     const answers = document.querySelectorAll('.questions-author-answer');
-    for (let i = 0; i < answers.length; i++) {
+    for (let i = 0; i < answers.length; i += 1) {
       localStorage.setItem(`bullet${this.j}`, '#d82727');
       bullets[this.j].style.background = '#d82727';
       answers[i].style.background = '#d82727';
@@ -907,7 +908,7 @@ class Routing {
   toLongAnswerPicture() {
     const bullets = document.querySelectorAll('.questions-picture-bullet');
     const answers = document.querySelectorAll('.questions-picture-answer-img');
-    for (let i = 0; i < answers.length; i++) {
+    for (let i = 0; i < answers.length; i += 1) {
       localStorage.setItem(`bullet${this.j}`, '#d82727');
       bullets[this.j].style.background = '#d82727';
       answers[i].style.background = '#d82727';
@@ -923,7 +924,7 @@ class Routing {
   repeatTimer(diff, display, location) {
     const modalExiteIcon = document.querySelector('.modal-exite-icon');
     modalExiteIcon.addEventListener('click', () => {
-      this.settings.getTimeGame(diff, display, location);
+      timeGame(diff, display, location);
     });
   }
 

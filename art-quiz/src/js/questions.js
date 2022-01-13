@@ -1,13 +1,8 @@
-import Routing from './routing';
-import routing from '..';
+import routing from '../index'; // eslint-disable-line
 
 class Questions {
   constructor() {
-    // if (isRussian) {
-    // 	quotes = 'assets/json/dataru.json'
-    // } else {
     this.imagesJSON = 'assets/json/images.json';
-    // }
     this.j = 0;
   }
 
@@ -38,8 +33,6 @@ class Questions {
     if (this.j >= 10) {
       routing.gameOver();
     }
-    // console.log(authors, `Нужный автор: ${author}`);
-    // console.log(pictures, `Нужная картина: ${imgMini.src}`);
     if (location) {
       if (this.j >= 10 || number % 10 === 0) {
         this.j = 0;
@@ -55,19 +48,19 @@ class Questions {
         year,
         this.j,
       ]);
-      this.j++;
+      this.j += 1;
     }
   }
 
   async getRandomAuthors(data, author) {
     const arr = [];
     arr.push(author);
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i += 1) {
       await new Promise(async (resolve, reject) => {
         const randomNum = this.getRandomNumber(0, data.length - 1);
         const randomAuthor = await data[randomNum].author;
         let repeat = 0;
-        for (let j = 0; j < 3; j++) {
+        for (let j = 0; j < 3; j += 1) {
           if (arr[j] === randomAuthor) {
             repeat = 1;
             console.log('ПОВТОР', randomAuthor);
@@ -88,7 +81,7 @@ class Questions {
   async getRandomPictures(data, picture) {
     const arr = [];
     arr.push(picture);
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i += 1) {
       const randomNum = this.getRandomNumber(0, data.length - 1);
       let randomPicture;
       let repeat = false;
@@ -100,7 +93,7 @@ class Questions {
           resolve();
         };
       }).then(() => {
-        for (let j = 0; j < 3; j++) {
+        for (let j = 0; j < 3; j += 1) {
           if (arr[j] === randomPicture) {
             repeat = true;
             console.log('ПОВТОР', randomPicture);

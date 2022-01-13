@@ -1,5 +1,3 @@
-import routing from '../index';
-
 class Sound {
   constructor(arrSounds) {
     this.arrSounds = arrSounds;
@@ -8,7 +6,7 @@ class Sound {
     this.volumeOff = document.querySelector('.settings-main_volume-icons-off');
     this.getLocalStorage();
     this.volume.addEventListener('change', () => {
-      for (let i = 0; i < arrSounds.length; i++) {
+      for (let i = 0; i < arrSounds.length; i += 1) {
         this.arrSounds[i].currentTime = 0;
         if (i === 0) {
           this.arrSounds[3].play();
@@ -36,20 +34,20 @@ class Sound {
         value <= 1
           ? `linear-gradient(to right, #ffbca2 0%, #ffbca2 ${value * 100}%, #c4c4c4 ${value * 100}%, #c4c4c4 100%)`
           : `linear-gradient(to right, #ffbca2 0%, #ffbca2 ${0.4 * 100}%, #c4c4c4 ${0.4 * 100}%, #c4c4c4 100%)`;
-      for (let i = 0; i < this.arrSounds.length; i++) {
+      for (let i = 0; i < this.arrSounds.length; i += 1) {
         this.arrSounds[i].volume = value <= 1 ? value : 0.4;
       }
     }
     if (localStorage.getItem('this.volumeOff')) {
       this.volumeOff.classList.add('active');
-      for (let i = 0; i < this.arrSounds.length; i++) {
+      for (let i = 0; i < this.arrSounds.length; i += 1) {
         this.arrSounds[i].muted = true;
       }
     }
   }
 
   muteVolume() {
-    for (let i = 0; i < this.arrSounds.length; i++) {
+    for (let i = 0; i < this.arrSounds.length; i += 1) {
       if (this.arrSounds[i].muted) {
         this.volumeOff.classList.remove('active');
         localStorage.removeItem('this.volumeOff');
@@ -74,8 +72,9 @@ class Sound {
   }
 
   playSound(audio) {
-    audio.currentTime = 0;
-    audio.play();
+    this.audio = audio;
+    this.audio.currentTime = 0;
+    this.audio.play();
   }
 
   getSound() {

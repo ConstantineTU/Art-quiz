@@ -1,4 +1,4 @@
-import routing from '../index';
+import routing from '../index'; // eslint-disable-line
 
 export default class Settings {
   constructor() {
@@ -57,40 +57,40 @@ export default class Settings {
     }
   }
 
-  getTimeGame(duration, display, location) {
-    const start = Date.now();
-    let diff;
-    let minutes;
-    let seconds;
+  // getTimeGame(duration, display, location) {
+  //   const start = Date.now();
+  //   let diff;
+  //   let minutes;
+  //   let seconds;
 
-    const modalOverlay = document.getElementById('modalOverlay');
-    function timer() {
-      diff = duration - (((Date.now() - start) / 1000) | 0);
-      minutes = (diff / 60) | 0;
-      seconds = diff % 60 | 0;
+  //   const modalOverlay = document.getElementById('modalOverlay');
+  //   function timer() {
+  //     diff = duration - ((Date.now() - start) / 1000 || 0);
+  //     minutes = diff / 60 || 0;
+  //     seconds = diff % 60 || 0;
 
-      minutes = minutes < 10 ? `0${minutes}` : minutes;
-      seconds = seconds < 10 ? `0${seconds}` : seconds;
+  //     minutes = minutes < 10 ? `0${minutes}` : minutes;
+  //     seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-      display.textContent = `${minutes}:${seconds}`;
-      if (modalOverlay.classList.contains('show')) {
-        diff += 1;
-        clearInterval(time);
-        routing.repeatTimer(diff, display, location);
-      }
-      if (diff <= 0) {
-        clearInterval(time);
-        if (location.includes('#/picture-question-')) {
-          routing.toLongAnswerPicture();
-        } else {
-          routing.toLongAnswerAuthor();
-        }
-      }
-    }
-    timer();
+  //     display.textContent = `${minutes}:${seconds}`;
+  //     if (modalOverlay.classList.contains('show')) {
+  //       diff += 1;
+  //       clearInterval(time);
+  //       routing.repeatTimer(diff, display, location);
+  //     }
+  //     if (diff <= 0) {
+  //       clearInterval(time);
+  //       if (location.includes('#/picture-question-')) {
+  //         routing.toLongAnswerPicture();
+  //       } else {
+  //         routing.toLongAnswerAuthor();
+  //       }
+  //     }
+  //   }
+  //   timer();
 
-    let time = setInterval(timer, 1000);
-  }
+  //   let time = setInterval(timer, 1000);
+  // }
 
   getOpenSettings() {
     this.settingsWindow.classList.add('active');
