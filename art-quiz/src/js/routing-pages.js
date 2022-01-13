@@ -1,6 +1,4 @@
-export default class routingPages {
-  constructor() {
-    this.artistCategories = `
+export const artistCategories = `
 <div class="artist-container">
 <div class="artist">
   <div class="artist_body">
@@ -152,7 +150,7 @@ export default class routingPages {
 </div>
 </div>
 `;
-    this.picturesCategories = `
+export const picturesCategories = `
 <div class="pictures-container">
 <div class="pictures">
   <div class="pictures_body">
@@ -305,7 +303,7 @@ export default class routingPages {
 </div>
 </div>
   `;
-    this.mainHtml = `
+export const mainHtml = `
 <div class="title-cotainer">
         <h1 class="title">Art Quiz</h1>
         <div class="categories-container">
@@ -317,7 +315,7 @@ export default class routingPages {
         </div>
       </div>
 `;
-    this.mainHeader = `
+export const mainHeader = `
 <div class="header-left">
     <div class="header-logo"></div>
     <a id="main-menu-categories" href="#/" data-href="#/">
@@ -335,7 +333,7 @@ export default class routingPages {
     </div>
   </div>
 `;
-    this.questionsAuthorHeader = `
+export const questionsAuthorHeader = `
 <div class="questions-author-header">
     <div id="questions-author-header-main"  class="click questions-author-header_exit-icon"></div>
     <div class="questions-author-time-progress"></div>
@@ -344,7 +342,7 @@ export default class routingPages {
     </div>
   </div>
 `;
-    this.questionsPictureHeader = `
+export const questionsPictureHeader = `
 <div class="questions-picture-header">
 <div id="questions-author-header-main"  class="click questions-author-header_exit-icon"></div>
     <div class="questions-picture-time-progress"></div>
@@ -353,5 +351,3 @@ export default class routingPages {
     </div>
   </div>
 `;
-  }
-}
