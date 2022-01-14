@@ -55,10 +55,10 @@ class Questions {
   async getRandomAuthors(data, author) {
     const arr = [];
     arr.push(author);
-    for (let i = 0; i < 3; i += 1) {
-      await new Promise(async (resolve, reject) => {
+    await new Promise((resolve) => {
+      for (let i = 0; i < 3; i += 1) {
         const randomNum = this.getRandomNumber(0, data.length - 1);
-        const randomAuthor = await data[randomNum].author;
+        const randomAuthor = data[randomNum].author;
         let repeat = 0;
         for (let j = 0; j < 3; j += 1) {
           if (arr[j] === randomAuthor) {
@@ -70,29 +70,34 @@ class Questions {
           arr.push(randomAuthor);
           resolve();
         } else {
-          i--;
+          i -= 1;
           resolve();
         }
-      }).then(() => {});
-    }
+      }
+    });
     return arr;
   }
 
   async getRandomPictures(data, picture) {
     const arr = [];
     arr.push(picture);
-    for (let i = 0; i < 3; i += 1) {
+    let i = 0;
+    const handleLoop = async () => {
       const randomNum = this.getRandomNumber(0, data.length - 1);
       let randomPicture;
       let repeat = false;
-      await new Promise((resolve, reject) => {
+      console.log(2);
+
+      await new Promise((resolve) => {
         const img = new Image();
         img.src = `https://raw.githubusercontent.com/ConstantineTU/image-data/master/jpg/img/${randomNum}.jpg`;
         img.onload = () => {
           randomPicture = `https://raw.githubusercontent.com/ConstantineTU/image-data/master/jpg/img/${randomNum}.jpg`;
           resolve();
         };
-      }).then(() => {
+      }).then(async () => {
+        console.log(1);
+
         for (let j = 0; j < 3; j += 1) {
           if (arr[j] === randomPicture) {
             repeat = true;
@@ -102,31 +107,37 @@ class Questions {
         }
         if (!repeat) {
           arr.push(randomPicture);
+          i += 1;
         } else {
-          i--;
+          i -= 1;
+        }
+        if (i < 3) {
+          await handleLoop();
         }
       });
-    }
+    };
+    await handleLoop();
     return arr;
   }
 
-  async shuffle(arr) {
+  shuffle(arrInput) {
+    this.arr = arrInput;
     let j;
     let temp;
-    for (let i = arr.length - 1; i > 0; i--) {
+    for (let i = this.arr.length - 1; i > 0; i -= 1) {
       j = Math.floor(Math.random() * (i + 1));
-      temp = arr[j];
-      arr[j] = arr[i];
-      arr[i] = temp;
+      temp = this.arr[j];
+      this.arr[j] = this.arr[i];
+      this.arr[i] = temp;
     }
-    return arr;
+    return this.arr;
   }
 
   getRandomNumber(mi, ma) {
-    const min = Math.ceil(mi);
-    const max = Math.floor(ma);
-    const result = Math.floor(Math.random() * (max - min + 1)) + min;
-    return result;
+    this.min = Math.ceil(mi);
+    this.max = Math.floor(ma);
+    this.result = Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
+    return this.result;
   }
 }
 
