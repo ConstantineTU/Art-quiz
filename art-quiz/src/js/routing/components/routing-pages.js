@@ -316,7 +316,7 @@ export const mainHtml = `
       </div>
 `;
 export const mainHeader = `
-<div class="header-left">
+  <div class="header-left">
     <div class="header-logo"></div>
     <a id="main-menu-categories" href="#/" data-href="#/">
       <div class="header-left-categories"><span id="headerCategoriesName"

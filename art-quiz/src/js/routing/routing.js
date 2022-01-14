@@ -1,7 +1,7 @@
-import Questions from './questions'; // eslint-disable-line
-import Sound from './sound';
-import Settings from './settings'; // eslint-disable-line
-import timeGame from './time-game'; // eslint-disable-line
+import Questions from './components/questions'; // eslint-disable-line
+import Sound from '../settings/components/sound';
+import Settings from '../settings/settings'; // eslint-disable-line
+import timeGame from '../settings/components/time-game'; // eslint-disable-line
 import {
   artistCategories,
   picturesCategories,
@@ -9,7 +9,7 @@ import {
   mainHeader,
   questionsAuthorHeader,
   questionsPictureHeader,
-} from './routing-pages';
+} from './components/routing-pages';
 
 class Routing {
   constructor() {
@@ -56,28 +56,26 @@ class Routing {
     this.questionsPictureHeader = questionsPictureHeader;
     this.i = 0;
     this.isCategoriesLoad = false;
-    window.addEventListener('load', async () => {
-      const location = window.location.hash;
-      if (location) {
-        if (location.includes('#/artist-question-')) {
-          this.i = location.split('-', 3)[2].split('/', 1) * 10;
-        }
-        this.locationResolver(location);
-      }
+    window.addEventListener('load', () => {
+      this.onLocationChange();
     });
-    window.addEventListener('hashchange', async () => {
-      const location = window.location.hash;
-      if (location) {
-        if (location.includes('#/artist-question-')) {
-          this.i = location.split('-', 3)[2].split('/', 1) * 10;
-        }
-        this.locationResolver(location);
-      }
+    window.addEventListener('hashchange', () => {
+      this.onLocationChange();
     });
     this.buttonsClick.forEach((buttonClick) => {
       const click = buttonClick;
       click.onclick = () => this.sound.playSound(this.audioClick);
     });
+  }
+
+  async onLocationChange() {
+    const location = window.location.hash;
+    if (location) {
+      if (location.includes('#/artist-question-')) {
+        this.i = location.split('-', 3)[2].split('/', 1) * 10;
+      }
+      this.locationResolver(location);
+    }
   }
 
   async locationResolver(location, info) {
@@ -102,7 +100,6 @@ class Routing {
       return;
     }
     if (info) {
-      console.log(info);
       [
         this.picture,
         this.pictureMini,
@@ -155,7 +152,6 @@ class Routing {
       this.artistItemImg.forEach((artist) => {
         artist.parentElement.parentElement.addEventListener('click', () => {
           localStorage.setItem(`artist.id${this.id}`, this.id);
-          console.log(this.id);
         });
       });
       this.artistItemImg.forEach((artist) => {
@@ -200,7 +196,6 @@ class Routing {
       this.picturesItemImg.forEach((picture) => {
         picture.parentElement.parentElement.addEventListener('click', () => {
           localStorage.setItem(`picture.id${this.id}`, this.id);
-          console.log(this.id);
         });
       });
       this.picturesItemImg.forEach((picture) => {
@@ -351,7 +346,6 @@ class Routing {
             answers[i].style.color = '#000000';
             this.modalCorrect.classList.add('show');
             this.modalOverlay.classList.add('show');
-            console.log(this.modalIconPicture);
             this.modalIconPicture.style.background = `url("./assets/img/svg/correct_answer.svg") no-repeat`;
             this.modalCorrect.style.zIndex = 5;
             this.sound.playSound(this.audioCorrect);
@@ -518,20 +512,17 @@ class Routing {
             localStorage.setItem(`bullet${this.j}`, '#3dda69');
             bullets[this.j].style.background = '#3dda69';
             answers[i].classList.add('correct');
-            this.modalCorrect.classList.add('show');
-            this.modalOverlay.classList.add('show');
             this.sound.playSound(this.audioCorrect);
-            this.modalCorrect.style.zIndex = 5;
           } else {
             this.modalIconPicture.style.background = `url("./assets/img/svg/wrong_answer.svg") no-repeat`;
             localStorage.setItem(`bullet${this.j}`, '#d82727');
             bullets[this.j].style.background = '#d82727';
             answers[i].classList.add('uncorrect');
-            this.modalCorrect.classList.add('show');
-            this.modalOverlay.classList.add('show');
             this.sound.playSound(this.audioUncorrect);
-            this.modalCorrect.style.zIndex = 5;
           }
+          this.modalCorrect.classList.add('show');
+          this.modalOverlay.classList.add('show');
+          this.modalCorrect.style.zIndex = 5;
         };
       }
       this.i += 1;

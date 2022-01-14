@@ -1,4 +1,4 @@
-import routing from '../index'; // eslint-disable-line
+import routing from '../../../index'; // eslint-disable-line
 
 class Questions {
   constructor() {
@@ -63,7 +63,6 @@ class Questions {
         for (let j = 0; j < 3; j += 1) {
           if (arr[j] === randomAuthor) {
             repeat = 1;
-            console.log('ПОВТОР', randomAuthor);
           }
         }
         if (!repeat) {
@@ -86,8 +85,6 @@ class Questions {
       const randomNum = this.getRandomNumber(0, data.length - 1);
       let randomPicture;
       let repeat = false;
-      console.log(2);
-
       await new Promise((resolve) => {
         const img = new Image();
         img.src = `https://raw.githubusercontent.com/ConstantineTU/image-data/master/jpg/img/${randomNum}.jpg`;
@@ -96,12 +93,9 @@ class Questions {
           resolve();
         };
       }).then(async () => {
-        console.log(1);
-
         for (let j = 0; j < 3; j += 1) {
           if (arr[j] === randomPicture) {
             repeat = true;
-            console.log('ПОВТОР', randomPicture);
             break;
           }
         }

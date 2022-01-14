@@ -1,4 +1,4 @@
-import routing from '../index'; // eslint-disable-line
+import routing from '../../../index'; // eslint-disable-line
 
 function getTimeGame(duration, display, location) {
   const dis = display;

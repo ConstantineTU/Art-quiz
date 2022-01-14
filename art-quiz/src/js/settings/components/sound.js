@@ -1,10 +1,8 @@
 class Sound {
   constructor(arrSounds) {
     this.arrSounds = arrSounds;
-    console.log(this.arrSounds);
     this.volume = document.getElementById('settings-volume');
     this.volumeOff = document.querySelector('.settings-main_volume-icons-off');
-    this.getLocalStorage();
     this.volume.addEventListener('change', () => {
       for (let i = 0; i < arrSounds.length; i += 1) {
         this.arrSounds[i].currentTime = 0;
@@ -22,53 +20,44 @@ class Sound {
         }
       }
     });
+    this.getLocalStorage();
     this.volumeOff.onclick = () => {
       this.muteVolume();
     };
   }
 
   getLocalStorage() {
-    if (localStorage.getItem('volume-progress')) {
-      const value = localStorage.getItem('volume-value');
-      this.volume.style.background =
-        value <= 1
-          ? `linear-gradient(to right, #ffbca2 0%, #ffbca2 ${value * 100}%, #c4c4c4 ${value * 100}%, #c4c4c4 100%)`
-          : `linear-gradient(to right, #ffbca2 0%, #ffbca2 ${0.4 * 100}%, #c4c4c4 ${0.4 * 100}%, #c4c4c4 100%)`;
-      for (let i = 0; i < this.arrSounds.length; i += 1) {
-        this.arrSounds[i].volume = value <= 1 ? value : 0.4;
-      }
-    }
+    let soundVolume = 0.4;
+    if (localStorage.getItem('volume-progress')) soundVolume = localStorage.getItem('volume-value');
+    this.volume.style.background = `linear-gradient(to right, #ffbca2 0%, #ffbca2 ${soundVolume * 100}%, #c4c4c4 ${
+      soundVolume * 100
+    }%, #c4c4c4 100%)`;
+    this.arrSounds.forEach((sound) => {
+      this.sound = sound;
+      this.sound.volume = soundVolume;
+    });
     if (localStorage.getItem('this.volumeOff')) {
       this.volumeOff.classList.add('active');
-      for (let i = 0; i < this.arrSounds.length; i += 1) {
-        this.arrSounds[i].muted = true;
-      }
+      this.arrSounds.forEach((sound) => {
+        this.sound = sound;
+        this.sound.muted = true;
+      });
     }
   }
 
   muteVolume() {
-    for (let i = 0; i < this.arrSounds.length; i += 1) {
-      if (this.arrSounds[i].muted) {
+    this.arrSounds.forEach((sound) => {
+      this.sound = sound;
+      if (sound.muted) {
         this.volumeOff.classList.remove('active');
         localStorage.removeItem('this.volumeOff');
-        this.arrSounds[i].muted = false;
+        this.sound.muted = false;
       } else {
         this.volumeOff.classList.add('active');
         localStorage.setItem('this.volumeOff', 'active');
-        this.arrSounds[i].muted = true;
-        // if (audio.volume === 0) {
-        // 	if (localStorage.getItem('volume-value')) {
-        // 		volumeProgress.style.background = localStorage.getItem('volume-progress')
-        // 		audio.volume = localStorage.getItem('volume-value') / 100
-        // 		volumeProgress.value = localStorage.getItem('volume-value') / 100
-        // 	} else {
-        // 		volumeProgress.style.background = `linear-gradient(to right, #c5b358 0%, #c5b358 ${30}%, #c4c4c4 ${30}%, #c4c4c4 100%)`
-        // 		volumeProgress.value = 30 / 100
-        // 		audio.volume = 30 / 100
-        // 	}
-        // }
+        this.sound.muted = true;
       }
-    }
+    });
   }
 
   playSound(audio) {

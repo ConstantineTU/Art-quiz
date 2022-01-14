@@ -1,5 +1,5 @@
 import './assets/scss/style.scss';
-import Routing from './js/routing'; // eslint-disable-line
+import Routing from './js/routing/routing'; // eslint-disable-line
 
 const routing = new Routing();
 
