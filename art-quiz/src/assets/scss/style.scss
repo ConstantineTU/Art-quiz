@@ -891,8 +891,8 @@ body {
 			width: 100%;
 			background: linear-gradient(
 				to right,
-				rgba(255, 188, 162, 1) 40%,
-				rgba(255, 188, 162, 1) 40%,
+				rgba(255, 188, 162, 1) 100%,
+				rgba(255, 188, 162, 1) 100%,
 				rgba(164, 164, 164, 1) 0%,
 				rgba(164, 164, 164, 1) 100%
 			);
@@ -962,8 +962,7 @@ body {
 			height: 100%;
 			object-fit: cover;
 			&.correct {
-				filter: invert(23%) sepia(72%) saturate(2700%) hue-rotate(96deg) brightness(101%) contrast(103%)
-					opacity(0.5);
+				filter: invert(23%) sepia(72%) saturate(2700%) hue-rotate(96deg) brightness(101%) contrast(103%) opacity(0.5);
 			}
 			&.uncorrect {
 				filter: invert(11%) sepia(58%) saturate(22%) hue-rotate(1deg) brightness(19%) contrast(118%);
@@ -998,7 +997,7 @@ body {
 		}
 		&-progress {
 			width: 100%;
-			background: linear-gradient(to right, #ffbca2 40%, #ffbca2 40%, #a4a4a4 0%, #a4a4a4 100%);
+			background: linear-gradient(to right, #ffbca2 100%, #ffbca2 100%, #a4a4a4 0%, #a4a4a4 100%);
 			height: 6px;
 			border-radius: 5px;
 			outline: none;
@@ -1115,10 +1114,12 @@ body {
 		flex-direction: column;
 		padding: 30px;
 
-		transition: transform 0.5s;
+		transition: transform 0.5s, opacity 0.5s;
 		transform: scale(0%);
+		opacity: 0;
 		&.show {
 			transform: scale(100%);
+			opacity: 1;
 		}
 		@media (max-width: ($md3+px)) {
 			padding: 10px;

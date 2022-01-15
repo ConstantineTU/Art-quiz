@@ -249,7 +249,7 @@ class Routing {
       if (this.isTimeGame.classList.contains('active')) {
         this.display = document.querySelector('.questions-author-time_count');
         this.fiveMinutes = this.countTime.dataset.value;
-        this.Settings.getTimeGame(this.fiveMinutes, this.display, location);
+        this.Settings.getTimeGame(this.fiveMinutes, this.display, location, this.fiveMinutes);
       }
       this.buttonsClick.forEach((clickBtn) => {
         const click = clickBtn;
@@ -367,7 +367,7 @@ class Routing {
       if (this.isTimeGame.classList.contains('active')) {
         this.display = document.querySelector('.questions-picture-time_count');
         this.fiveMinutes = this.countTime.dataset.value;
-        this.Settings.getTimeGame(this.fiveMinutes, this.display, location);
+        this.Settings.getTimeGame(this.fiveMinutes, this.display, location, this.fiveMinutes);
       }
       this.buttonsClick.forEach((clickBtn) => {
         const click = clickBtn;
@@ -488,13 +488,14 @@ class Routing {
     });
   }
 
-  repeatTimer(diff, display, location) {
+  repeatTimer(diff, display, location, durationDefault) {
     this.diff = diff;
+    this.durationDefault = durationDefault;
     this.display = display;
     this.location = location;
     const modalExiteIcon = document.querySelector('.modal-exite-icon');
     modalExiteIcon.addEventListener('click', () => {
-      this.Settings.getTimeGame(this.diff, this.display, this.location);
+      this.Settings.getTimeGame(this.diff, this.display, this.location, this.durationDefault);
     });
   }
 

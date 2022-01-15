@@ -41,12 +41,13 @@ export default class Settings {
     else this.settingsWindow.classList.add('active');
   }
 
-  getTimeGame(duration, display, location) {
+  getTimeGame(duration, display, location, durationDefault = duration) {
     this.duration = duration;
+    this.durationDefault = durationDefault;
     this.dis = display;
     this.location = location;
     const start = Date.now();
-    this.initialTimeValue = Math.round(this.duration - ((Date.now() - start) / 1000 || 0));
+    this.initialTimeValue = Math.round(this.durationDefault - ((Date.now() - start) / 1000 || 0));
     let diff;
     let minutes;
     let seconds;
@@ -67,22 +68,24 @@ export default class Settings {
           100 - (100 / this.initialTimeValue) * seconds
         }%, #c4c4c4 ${100 - (100 / this.initialTimeValue) * seconds}%, #c4c4c4 100%)`;
       } else {
-        timeProgress.style.background = `linear-gradient(to right, #ffbca2 0%, #ffbca2 ${
+        timeProgress.style.background = `linear-gradient(to right, #3dda69 0%, #3dda69 ${
           100 - (100 / this.initialTimeValue) * seconds
         }%, #c4c4c4 ${100 - (100 / this.initialTimeValue) * seconds}%, #c4c4c4 100%)`;
       }
 
-      if (modalOverlay.classList.contains('show')) {
-        diff += 1;
-        routing.repeatTimer(diff, this.dis, this.location);
-      } else if (diff) {
-        setTimeout(timer, 1000);
-      }
-      if (diff <= 0) {
-        if (this.location.includes('#/picture-question-')) {
-          routing.toLongAnswer('picture');
-        } else {
-          routing.toLongAnswer('author');
+      if (this.settingsTimeGame.classList.contains('active')) {
+        if (modalOverlay.classList.contains('show')) {
+          diff += 1;
+          routing.repeatTimer(diff, this.dis, this.location, this.durationDefault);
+        } else if (diff) {
+          setTimeout(timer, 1000);
+        }
+        if (diff <= 0) {
+          if (this.location.includes('#/picture-question-')) {
+            routing.toLongAnswer('picture');
+          } else {
+            routing.toLongAnswer('author');
+          }
         }
       }
     };
