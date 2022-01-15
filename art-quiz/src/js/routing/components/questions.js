@@ -3,12 +3,12 @@ import routing from '../../../index'; // eslint-disable-line
 class Questions {
   constructor() {
     this.imagesJSON = 'assets/json/images.json';
-    this.j = 0;
+    this.qustionCounter = 0;
   }
 
   async loadAuthorPictures(number, numberJ) {
     if (numberJ) {
-      this.j = 0;
+      this.qustionCounter = 0;
     }
     const location = window.location.hash;
     const res = await fetch(this.imagesJSON);
@@ -30,12 +30,12 @@ class Questions {
     } else if (location.includes('#/picture-question-')) {
       pictures = await this.shuffle(await this.getRandomPictures(data, imgMini.src));
     }
-    if (this.j >= 10) {
+    if (this.qustionCounter >= 10) {
       routing.gameOver();
     }
     if (location) {
-      if (this.j >= 10 || number % 10 === 0) {
-        this.j = 0;
+      if (this.qustionCounter >= 10 || number % 10 === 0) {
+        this.qustionCounter = 0;
       }
       routing.locationResolver(location, [
         imgFull.src,
@@ -46,9 +46,9 @@ class Questions {
         imageNum,
         name,
         year,
-        this.j,
+        this.qustionCounter,
       ]);
-      this.j += 1;
+      this.qustionCounter += 1;
     }
   }
 

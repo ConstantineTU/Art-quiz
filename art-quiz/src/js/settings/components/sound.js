@@ -35,6 +35,7 @@ class Sound {
     this.arrSounds.forEach((sound) => {
       this.sound = sound;
       this.sound.volume = soundVolume;
+      this.volume.value = soundVolume;
     });
     if (localStorage.getItem('this.volumeOff')) {
       this.volumeOff.classList.add('active');

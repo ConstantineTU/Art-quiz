@@ -46,20 +46,32 @@ export default class Settings {
     this.dis = display;
     this.location = location;
     const start = Date.now();
+    this.initialTimeValue = Math.round(this.duration - ((Date.now() - start) / 1000 || 0));
     let diff;
     let minutes;
     let seconds;
 
     const modalOverlay = document.getElementById('modalOverlay');
+    const timeProgress = document.getElementById('time-progress');
     const timer = () => {
       diff = Math.round(this.duration - ((Date.now() - start) / 1000 || 0));
-      minutes = Math.round(diff / 60 || 0);
+      minutes = 0;
       seconds = Math.round(diff % 60 || 0);
 
       minutes = minutes < 10 ? `0${minutes}` : minutes;
       seconds = seconds < 10 ? `0${seconds}` : seconds;
 
       this.dis.textContent = `${minutes}:${seconds}`;
+      if (100 - (100 / this.initialTimeValue) * seconds > 55) {
+        timeProgress.style.background = `linear-gradient(to right, #d82727 0%, #d82727 ${
+          100 - (100 / this.initialTimeValue) * seconds
+        }%, #c4c4c4 ${100 - (100 / this.initialTimeValue) * seconds}%, #c4c4c4 100%)`;
+      } else {
+        timeProgress.style.background = `linear-gradient(to right, #ffbca2 0%, #ffbca2 ${
+          100 - (100 / this.initialTimeValue) * seconds
+        }%, #c4c4c4 ${100 - (100 / this.initialTimeValue) * seconds}%, #c4c4c4 100%)`;
+      }
+
       if (modalOverlay.classList.contains('show')) {
         diff += 1;
         routing.repeatTimer(diff, this.dis, this.location);
@@ -68,9 +80,9 @@ export default class Settings {
       }
       if (diff <= 0) {
         if (this.location.includes('#/picture-question-')) {
-          routing.toLongAnswerPicture();
+          routing.toLongAnswer('picture');
         } else {
-          routing.toLongAnswerAuthor();
+          routing.toLongAnswer('author');
         }
       }
     };

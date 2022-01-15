@@ -1,15 +1,7 @@
 import Questions from './components/questions'; // eslint-disable-line
 import Sound from '../settings/components/sound';
 import Settings from '../settings/settings'; // eslint-disable-line
-import timeGame from '../settings/components/time-game'; // eslint-disable-line
-import {
-  artistCategories,
-  picturesCategories,
-  mainHtml,
-  mainHeader,
-  questionsAuthorHeader,
-  questionsPictureHeader,
-} from './components/routing-pages';
+import routingPages from './components/routing-pages';
 
 class Routing {
   constructor() {
@@ -28,9 +20,10 @@ class Routing {
     this.audioUncorrect.src = './assets/sounds/uncorrect.mp3';
     this.audioEnd.src = './assets/sounds/end.mp3';
 
-    this.questions = new Questions();
-    this.sound = new Sound([this.audioCorrect, this.audioUncorrect, this.audioEnd, this.audioClick]);
-    this.settings = new Settings();
+    this.Question = new Questions();
+    this.Sound = new Sound([this.audioCorrect, this.audioUncorrect, this.audioEnd, this.audioClick]);
+    this.Settings = new Settings();
+    this.Settings = new Settings();
 
     this.modalExit = document.getElementById('modalExit');
     this.modalCorrect = document.getElementById('modalCorrect');
@@ -48,13 +41,15 @@ class Routing {
 
     this.buttonsClick = document.querySelectorAll('.click');
 
-    this.artistCategories = artistCategories;
-    this.picturesCategories = picturesCategories;
-    this.mainHtml = mainHtml;
-    this.mainHeader = mainHeader;
-    this.questionsAuthorHeader = questionsAuthorHeader;
-    this.questionsPictureHeader = questionsPictureHeader;
-    this.i = 0;
+    [
+      this.artistCategories,
+      this.picturesCategories,
+      this.mainHtml,
+      this.mainHeader,
+      this.QuestionAuthorHeader,
+      this.QuestionPictureHeader,
+    ] = routingPages();
+    this.questionNumber = 0;
     this.isCategoriesLoad = false;
     window.addEventListener('load', () => {
       this.onLocationChange();
@@ -64,7 +59,7 @@ class Routing {
     });
     this.buttonsClick.forEach((buttonClick) => {
       const click = buttonClick;
-      click.onclick = () => this.sound.playSound(this.audioClick);
+      click.onclick = () => this.Sound.playSound(this.audioClick);
     });
   }
 
@@ -72,7 +67,7 @@ class Routing {
     const location = window.location.hash;
     if (location) {
       if (location.includes('#/artist-question-')) {
-        this.i = location.split('-', 3)[2].split('/', 1) * 10;
+        this.questionNumber = location.split('-', 3)[2].split('/', 1) * 10;
       }
       this.locationResolver(location);
     }
@@ -91,12 +86,12 @@ class Routing {
     }
 
     if (!info && location.includes('#/artist-question-')) {
-      await this.questions.loadAuthorPictures(this.i);
+      await this.Question.loadAuthorPictures(this.questionNumber);
       return;
     }
     if (!info && location.includes('#/picture-question-')) {
-      this.i = location.split('-', 3)[2].split('/', 1) * 10;
-      await this.questions.loadAuthorPictures(this.i);
+      this.questionNumber = location.split('-', 3)[2].split('/', 1) * 10;
+      await this.Question.loadAuthorPictures(this.questionNumber);
       return;
     }
     if (info) {
@@ -109,10 +104,8 @@ class Routing {
         this.imageNum,
         this.name,
         this.year,
-        this.j,
+        this.qustionCounter,
       ] = info;
-    } else {
-      this.picture = 'https://raw.githubusercontent.com/ConstantineTU/image-data/master/jpg/full/0full.jpg';
     }
     if (document.getElementById('categories-artist')) {
       this.categoriesArtist = document.getElementById('categories-artist');
@@ -125,32 +118,21 @@ class Routing {
     if (location === '#/artist/') {
       this.header.classList.add('active');
       this.body.style.background = `rgba(0, 0, 0, 1) url("") no-repeat scroll center center /cover`;
-      this.header.innerHTML = `
-			<div class="header-left">
-					<div class="header-logo"></div>
-					<a id="main-menu-categories" href="#/" data-href="#/">
-						<div class="header-left-categories"><span id="headerCategoriesName"
-								class="header-left-categories-name click">Artist</span> categories</div>
-					</a>
-				</div>
-				<div class="header-right">
-					<a href="#/pictures/" data-href="#/pictures/">
-					<div class="header-right-categories click">Pictures categories</div>
-					</a>
-					<div class="header-right-score">Score</div>
-					<div class="header-settings">
-						<div id="settings-open" class="header-settings_icon click "></div>
-					</div>
-				</div>
-			`;
+      this.header.innerHTML = this.mainHeader;
+      this.categoriesName = document.getElementById('headerCategoriesName');
+      this.categoriesName.innerHTML = 'Artists';
+      this.anoutherCategory = document.getElementById('anouther-category');
+      this.anoutherCategory.innerHTML = 'Pictures categories';
+      console.log(this.anoutherCategory);
+
       this.buttonsClick.forEach((clickBtn) => {
         const click = clickBtn;
-        click.onclick = () => this.sound.playSound(this.audioClick);
+        click.onclick = () => this.Sound.playSound(this.audioClick);
       });
       this.main.innerHTML = this.artistCategories;
       this.artistItemImg = document.querySelectorAll('.artist_item-img');
       this.artistItemImg.forEach((artist) => {
-        artist.parentElement.parentElement.addEventListener('click', () => {
+        artist.parentElement.parentElement.addEventListener('click', function viewedAuthorСategory() {
           localStorage.setItem(`artist.id${this.id}`, this.id);
         });
       });
@@ -162,39 +144,27 @@ class Routing {
           }
         }
       });
-      this.settings = new Settings();
-      this.i = 0;
+      this.Settings = new Settings();
+      this.questionNumber = 0;
     } else if (location === '#/pictures/') {
       this.header.classList.add('active');
       this.body.style.background = `rgba(0, 0, 0) url("") no-repeat scroll center center /cover`;
-      this.header.innerHTML = `
-			<div class="header-left">
-					<div class="header-logo"></div>
-					<a id="main-menu-categories" href="#/" data-href="#/">
-						<div class="header-left-categories"><span id="headerCategoriesName"
-								class="header-left-categories-name">Pictures</span> categories</div>
-					</a>
-				</div>
-				<div class="header-right">
-					<a href="#/artist/" data-href="#/artist/">
-					<div class="header-right-categories">Artist categories</div>
-					</a>
-					<div class="header-right-score">Score</div>
-					<div class="header-settings">
-						<div id="settings-open" class="header-settings_icon click"></div>
-					</div>
-				</div>
-			`;
+      this.header.innerHTML = this.mainHeader;
+      this.anoutherCategory = document.getElementById('anouther-category');
+      this.anoutherCategoryLink = document.getElementById('anouther-category-link');
+      this.anoutherCategoryLink.href = '#/artist/';
+      this.anoutherCategoryLink.dataset.href = '#/artist/';
+      this.anoutherCategory.innerHTML = 'Artists categories';
       this.buttonsClick.forEach((clickBtn) => {
         const click = clickBtn;
         click.onclick = () => {
-          this.sound.playSound(this.audioClick);
+          this.Sound.playSound(this.audioClick);
         };
       });
       this.main.innerHTML = this.picturesCategories;
       this.picturesItemImg = document.querySelectorAll('.pictures_item-img');
       this.picturesItemImg.forEach((picture) => {
-        picture.parentElement.parentElement.addEventListener('click', () => {
+        picture.parentElement.parentElement.addEventListener('click', function viewedPictureСategory() {
           localStorage.setItem(`picture.id${this.id}`, this.id);
         });
       });
@@ -206,8 +176,8 @@ class Routing {
           }
         }
       });
-      this.i = 0;
-      this.settings = new Settings();
+      this.questionNumber = 0;
+      this.Settings = new Settings();
     } else if (location.includes('#/artist-question-')) {
       if (+location.split('-', 3)[2].split('/', 1) + 1 < 12) {
         this.modalButtonNextQuiz.parentElement.href = `#/artist-question-${
@@ -239,13 +209,13 @@ class Routing {
         button.onclick = () => {
           button.parentElement.href = `#/artist-question-${location.split('-', 3)[2].split('/', 1)}/`;
           button.parentElement.dataset.href = `#/artist-question-${location.split('-', 3)[2].split('/', 1)}/`;
-          this.questions.loadAuthorPictures(this.i);
+          this.Question.loadAuthorPictures(this.questionNumber);
           this.modalCorrect.style.zIndex = -1;
         };
       });
       this.body.style.background = `rgba(0, 0, 0) url("") no-repeat scroll center center /cover`;
       this.header.classList.remove('active');
-      this.header.innerHTML = this.questionsAuthorHeader;
+      this.header.innerHTML = this.QuestionAuthorHeader;
       this.main.innerHTML = `
 			<div class="questions-author">
 							<div class="questions-author-container">
@@ -254,34 +224,23 @@ class Routing {
                   this.picture
                 }') no-repeat scroll center center /contain;"></div>
 								<div class="questions-author-bullets">
-									<div class="questions-author-bullet"></div>
-									<div class="questions-author-bullet"></div>
-									<div class="questions-author-bullet"></div>
-									<div class="questions-author-bullet"></div>
-									<div class="questions-author-bullet"></div>
-									<div class="questions-author-bullet"></div>
-									<div class="questions-author-bullet"></div>
-									<div class="questions-author-bullet"></div>
-									<div class="questions-author-bullet"></div>
-									<div class="questions-author-bullet"></div>
+                ${[...Array(10)]
+                  .map(() => {
+                    return '<div class="questions-author-bullet"></div>';
+                  })
+                  .join('')}
 								</div>
 								<div class="questions-author-answers">
-									<a href="#/artist-question-${location.split('-', 3)[2].split('/', 1)}/" data-href="#/artist-question-${location
-        .split('-', 3)[2]
-        .split('/', 1)}/">
-										<button class="button_menu questions-author-answer">${this.randomAuthors[0]}</button></a>
-									<a href="#/artist-question-${location.split('-', 3)[2].split('/', 1)}/" data-href="#/artist-question-${location
-        .split('-', 3)[2]
-        .split('/', 1)}/">
-										<button class="button_menu questions-author-answer">${this.randomAuthors[1]}</button></a>
-									<a href="#/artist-question-${location.split('-', 3)[2].split('/', 1)}/" data-href="#/artist-question-${location
-        .split('-', 3)[2]
-        .split('/', 1)}/">
-										<button class="button_menu questions-author-answer">${this.randomAuthors[2]}</button></a>
-									<a href="#/artist-question-${location.split('-', 3)[2].split('/', 1)}/" data-href="#/artist-question-${location
-        .split('-', 3)[2]
-        .split('/', 1)}/">
-										<button class="button_menu questions-author-answer">${this.randomAuthors[3]}</button></a>
+                ${[...Array(4)]
+                  .map((_, i) => {
+                    return `<a href="#/artist-question-${location
+                      .split('-', 3)[2]
+                      .split('/', 1)}/" data-href="#/artist-question-${location.split('-', 3)[2].split('/', 1)}/">
+                              <button class="button_menu questions-author-answer">${
+                                this.randomAuthors[i]
+                              }</button></a>`;
+                  })
+                  .join('')}
 								</div>
 							</div>
 						</div>
@@ -290,12 +249,11 @@ class Routing {
       if (this.isTimeGame.classList.contains('active')) {
         this.display = document.querySelector('.questions-author-time_count');
         this.fiveMinutes = this.countTime.dataset.value;
-        this.settings.getTimeGame(this.fiveMinutes, this.display, location);
+        this.Settings.getTimeGame(this.fiveMinutes, this.display, location);
       }
-
       this.buttonsClick.forEach((clickBtn) => {
         const click = clickBtn;
-        click.onclick = () => this.sound.playSound(this.audioClick);
+        click.onclick = () => this.Sound.playSound(this.audioClick);
       });
       const headerIconExit = document.getElementById('questions-author-header-main');
       const modalIconExit = document.querySelector('.modal-exite-icon');
@@ -316,7 +274,7 @@ class Routing {
         this.modalYearPicture.textContent = this.year;
       }, 500);
       const bullets = document.querySelectorAll('.questions-author-bullet');
-      if (this.i === 0 || this.i % 10 === 0) {
+      if (this.questionNumber === 0 || this.questionNumber % 10 === 0) {
         let result = 0;
         for (let j = 0; j <= 9; j += 1) {
           if (localStorage.getItem(`bullet${j}`) === '#3dda69') {
@@ -324,7 +282,7 @@ class Routing {
           }
         }
         this.modalEndResult.textContent = result;
-        this.i = location.split('-', 3)[2].split('/', 1) * 10;
+        this.questionNumber = location.split('-', 3)[2].split('/', 1) * 10;
         for (let j = 0; j <= bullets.length; j += 1) {
           localStorage.removeItem(`bullet${j}`);
         }
@@ -334,38 +292,11 @@ class Routing {
           bullets[j].style.background = localStorage.getItem(`bullet${j}`);
         }
       }
-
       const answers = document.querySelectorAll('.questions-author-answer');
       for (let i = 0; i < answers.length; i += 1) {
-        answers[i].onclick = async () => {
-          if (answers[i].textContent === this.author) {
-            localStorage.setItem(`bullet${this.j}`, '#3dda69');
-            localStorage.setItem(`picture${this.i}`, true);
-            bullets[this.j].style.background = '#3dda69';
-            answers[i].style.background = '#3dda69';
-            answers[i].style.color = '#000000';
-            this.modalCorrect.classList.add('show');
-            this.modalOverlay.classList.add('show');
-            this.modalIconPicture.style.background = `url("./assets/img/svg/correct_answer.svg") no-repeat`;
-            this.modalCorrect.style.zIndex = 5;
-            this.sound.playSound(this.audioCorrect);
-            // alert('Правильный ответ!')
-          } else {
-            localStorage.setItem(`bullet${this.j}`, '#d82727');
-            localStorage.setItem(`picture${this.i}`, false);
-            bullets[this.j].style.background = '#d82727';
-            answers[i].style.background = '#d82727';
-            answers[i].style.color = '#000000';
-            this.modalCorrect.classList.add('show');
-            this.modalOverlay.classList.add('show');
-            this.modalIconPicture.style.background = `url("./assets/img/svg/wrong_answer.svg") no-repeat`;
-            this.modalCorrect.style.zIndex = 5;
-            this.sound.playSound(this.audioUncorrect);
-            // alert('Неправильный ответ!')
-          }
-        };
+        answers[i].onclick = async () => this.getAnswer(answers[i], bullets);
       }
-      this.i += 1;
+      this.questionNumber += 1;
     } else if (location.includes('#/picture-question-')) {
       if (+location.split('-', 3)[2].split('/', 1) + 1 < 24) {
         this.modalButtonNextQuiz.parentElement.href = `#/picture-question-${
@@ -397,61 +328,38 @@ class Routing {
         button.onclick = () => {
           button.parentElement.href = `#/picture-question-${location.split('-', 3)[2].split('/', 1)}/`;
           button.parentElement.dataset.href = `#/picture-question-${location.split('-', 3)[2].split('/', 1)}/`;
-          this.questions.loadAuthorPictures(this.i);
+          this.Question.loadAuthorPictures(this.questionNumber);
           this.modalCorrect.style.zIndex = -1;
         };
       });
       this.body.style.background = `rgba(0, 0, 0) url("") no-repeat scroll center center /cover`;
       this.header.classList.remove('active');
-      this.header.innerHTML = this.questionsPictureHeader;
+      this.header.innerHTML = this.QuestionPictureHeader;
       this.main.innerHTML = `
 			<div class="questions-picture">
 			<div class="questions-picture-container">
 				<h2 class="questions-picture-title">Which is <span id="questions-picture-author"
 						class="questions-picture-author">${this.author}</span> picture?</h2>
-	
 				<div class="questions-picture-answers">
-					<a href="#/picture-question-${location.split('-', 3)[2].split('/', 1)}/" data-href="#/picture-question-${location
-        .split('-', 3)[2]
-        .split('/', 1)}/">
-					<div class="questions-picture-answer"><img class="questions-picture-answer-img" src="${
-            this.randomPictures[0]
-          }" alt=""></div>
-					</a>
-					<a href="#/picture-question-${location.split('-', 3)[2].split('/', 1)}/" data-href="#/picture-question-${location
-        .split('-', 3)[2]
-        .split('/', 1)}/">
-					<div class="questions-picture-answer"><img class="questions-picture-answer-img" src="${
-            this.randomPictures[1]
-          }" alt=""></div>
-					</a>
-					<a href="#/picture-question-${location.split('-', 3)[2].split('/', 1)}/" data-href="#/picture-question-${location
-        .split('-', 3)[2]
-        .split('/', 1)}/">
-						<div class="questions-picture-answer"><img class="questions-picture-answer-img" src="${
-              this.randomPictures[2]
+        ${[...Array(4)]
+          .map((_, i) => {
+            return `<a href="#/picture-question-${location
+              .split('-', 3)[2]
+              .split('/', 1)}/" data-href="#/picture-question-${location.split('-', 3)[2].split('/', 1)}/">
+            <div class="questions-picture-answer"><img class="questions-picture-answer-img" src="${
+              this.randomPictures[i]
             }" alt=""></div>
-					</a>
-					<a href="#/picture-question-${location.split('-', 3)[2].split('/', 1)}/" data-href="#/picture-question-${location
-        .split('-', 3)[2]
-        .split('/', 1)}/">
-					<div class="questions-picture-answer"><img class="questions-picture-answer-img" src="${
-            this.randomPictures[3]
-          }" alt=""></div>
-					</a>
+            </a>`;
+          })
+          .join('')}
 				</div>
 				<div class="questions-picture-bullets">
-					<div class="questions-picture-bullet"></div>
-					<div class="questions-picture-bullet"></div>
-					<div class="questions-picture-bullet"></div>
-					<div class="questions-picture-bullet"></div>
-					<div class="questions-picture-bullet"></div>
-					<div class="questions-picture-bullet"></div>
-					<div class="questions-picture-bullet"></div>
-					<div class="questions-picture-bullet"></div>
-					<div class="questions-picture-bullet"></div>
-					<div class="questions-picture-bullet"></div>
-				</div>
+        ${[...Array(10)]
+          .map(() => {
+            return '<div class="questions-picture-bullet"></div>';
+          })
+          .join('')}
+					</div>
 			</div>
 		</div>
 			`;
@@ -459,12 +367,12 @@ class Routing {
       if (this.isTimeGame.classList.contains('active')) {
         this.display = document.querySelector('.questions-picture-time_count');
         this.fiveMinutes = this.countTime.dataset.value;
-        this.settings.getTimeGame(this.fiveMinutes, this.display, location);
+        this.Settings.getTimeGame(this.fiveMinutes, this.display, location);
       }
       this.buttonsClick.forEach((clickBtn) => {
         const click = clickBtn;
         click.onclick = () => {
-          this.sound.playSound(this.audioClick);
+          this.Sound.playSound(this.audioClick);
         };
       });
       const headerIconExit = document.getElementById('questions-author-header-main');
@@ -486,7 +394,7 @@ class Routing {
         this.modalYearPicture.textContent = this.year;
       }, 500);
       const bullets = document.querySelectorAll('.questions-picture-bullet');
-      if (this.i === 0 || this.i % 10 === 0) {
+      if (this.questionNumber === 0 || this.questionNumber % 10 === 0) {
         let result = 0;
         for (let j = 0; j <= 9; j += 1) {
           if (localStorage.getItem(`bullet${j}`) === '#3dda69') {
@@ -494,7 +402,7 @@ class Routing {
           }
         }
         this.modalEndResult.textContent = result;
-        this.i = location.split('-', 3)[2].split('/', 1) * 10;
+        this.questionNumber = location.split('-', 3)[2].split('/', 1) * 10;
         for (let j = 0; j <= bullets.length; j += 1) {
           localStorage.removeItem(`bullet${j}`);
         }
@@ -506,40 +414,23 @@ class Routing {
       }
       const answers = document.querySelectorAll('.questions-picture-answer-img');
       for (let i = 0; i < answers.length; i += 1) {
-        answers[i].onclick = async () => {
-          if (answers[i].src === this.pictureMini) {
-            this.modalIconPicture.style.background = `url("./assets/img/svg/correct_answer.svg") no-repeat`;
-            localStorage.setItem(`bullet${this.j}`, '#3dda69');
-            bullets[this.j].style.background = '#3dda69';
-            answers[i].classList.add('correct');
-            this.sound.playSound(this.audioCorrect);
-          } else {
-            this.modalIconPicture.style.background = `url("./assets/img/svg/wrong_answer.svg") no-repeat`;
-            localStorage.setItem(`bullet${this.j}`, '#d82727');
-            bullets[this.j].style.background = '#d82727';
-            answers[i].classList.add('uncorrect');
-            this.sound.playSound(this.audioUncorrect);
-          }
-          this.modalCorrect.classList.add('show');
-          this.modalOverlay.classList.add('show');
-          this.modalCorrect.style.zIndex = 5;
-        };
+        answers[i].onclick = () => this.getAnswer(answers[i], bullets);
       }
-      this.i += 1;
+      this.questionNumber += 1;
     } else if ('#/') {
       this.body.style.background = `rgba(0, 0, 0) url("./assets/img/main-screen/main_background2.jpg") no-repeat scroll center center /
 			cover`;
-      this.i = 0;
+      this.questionNumber = 0;
       this.header.classList.remove('active');
       this.header.innerHTML = this.mainHeader;
       this.main.innerHTML = this.mainHtml;
       this.buttonsClick.forEach((clickBtn) => {
         const click = clickBtn;
         click.onclick = () => {
-          this.sound.playSound(this.audioClick);
+          this.Sound.playSound(this.audioClick);
         };
       });
-      this.settings = new Settings();
+      this.Settings = new Settings();
     }
   }
 
@@ -548,40 +439,53 @@ class Routing {
       this.modalEnd.classList.add('show');
       this.modalOverlay.classList.add('show');
       this.modalEnd.style.zIndex = 5;
-      this.sound.playSound(this.audioEnd);
+      this.Sound.playSound(this.audioEnd);
     }, 500);
   }
 
-  toLongAnswerAuthor() {
-    const bullets = document.querySelectorAll('.questions-author-bullet');
-    const answers = document.querySelectorAll('.questions-author-answer');
-    for (let i = 0; i < answers.length; i += 1) {
-      localStorage.setItem(`bullet${this.j}`, '#d82727');
-      bullets[this.j].style.background = '#d82727';
-      answers[i].style.background = '#d82727';
-      answers[i].style.color = '#000000';
-      this.modalCorrect.classList.add('show');
-      this.modalOverlay.classList.add('show');
+  getAnswer(answer, bullets) {
+    this.answer = answer;
+    this.bullets = bullets;
+    if (this.answer.src === this.pictureMini || this.answer.textContent === this.author) {
+      this.modalIconPicture.style.background = `url("./assets/img/svg/correct_answer.svg") no-repeat`;
+      localStorage.setItem(`bullet${this.qustionCounter}`, '#3dda69');
+      this.bullets[this.qustionCounter].style.background = '#3dda69';
+      this.answer.classList.add('correct');
+      this.Sound.playSound(this.audioCorrect);
+    } else {
       this.modalIconPicture.style.background = `url("./assets/img/svg/wrong_answer.svg") no-repeat`;
-      this.modalCorrect.style.zIndex = 5;
-      this.sound.playSound(this.audioUncorrect);
+      localStorage.setItem(`bullet${this.qustionCounter}`, '#d82727');
+      this.bullets[this.qustionCounter].style.background = '#d82727';
+      this.answer.classList.add('uncorrect');
+      this.Sound.playSound(this.audioUncorrect);
     }
+    this.modalCorrect.classList.add('show');
+    this.modalOverlay.classList.add('show');
+    this.modalCorrect.style.zIndex = 5;
   }
 
-  toLongAnswerPicture() {
-    const bullets = document.querySelectorAll('.questions-picture-bullet');
-    const answers = document.querySelectorAll('.questions-picture-answer-img');
-    for (let i = 0; i < answers.length; i += 1) {
-      localStorage.setItem(`bullet${this.j}`, '#d82727');
-      bullets[this.j].style.background = '#d82727';
-      answers[i].style.background = '#d82727';
-      answers[i].style.color = '#000000';
+  toLongAnswer(categori) {
+    this.categori = categori;
+    if (this.categori === 'author') {
+      this.bullets = document.querySelectorAll('.questions-author-bullet');
+      this.answers = document.querySelectorAll('.questions-author-answer');
+    } else if (this.categori === 'picture') {
+      this.bullets = document.querySelectorAll('.questions-picture-bullet');
+      this.answers = document.querySelectorAll('.questions-picture-answer-img');
+    }
+    this.answers.forEach((answer) => {
+      this.answer = answer;
+      localStorage.setItem(`bullet${this.qustionCounter}`, '#d82727');
+      this.bullets[this.qustionCounter].style.background = '#d82727';
+      this.answer.style.background = '#d82727';
+      this.answer.style.color = '#000000';
       this.modalCorrect.classList.add('show');
       this.modalOverlay.classList.add('show');
       this.modalIconPicture.style.background = `url("./assets/img/svg/wrong_answer.svg") no-repeat`;
       this.modalCorrect.style.zIndex = 5;
-      this.sound.playSound(this.audioUncorrect);
-    }
+      this.Sound.playSound(this.audioUncorrect);
+      this.answer.classList.add('uncorrect');
+    });
   }
 
   repeatTimer(diff, display, location) {
@@ -590,12 +494,12 @@ class Routing {
     this.location = location;
     const modalExiteIcon = document.querySelector('.modal-exite-icon');
     modalExiteIcon.addEventListener('click', () => {
-      this.settings.getTimeGame(this.diff, this.display, this.location);
+      this.Settings.getTimeGame(this.diff, this.display, this.location);
     });
   }
 
   getSoundInRouting() {
-    this.sound.playSound(this.audioClick);
+    this.Sound.playSound(this.audioClick);
   }
 }
 

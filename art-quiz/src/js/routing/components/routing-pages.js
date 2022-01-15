@@ -1,4 +1,5 @@
-export const artistCategories = `
+export default function routingPages() {
+  const artistCategories = `
 <div class="artist-container">
 <div class="artist">
   <div class="artist_body">
@@ -150,7 +151,7 @@ export const artistCategories = `
 </div>
 </div>
 `;
-export const picturesCategories = `
+  const picturesCategories = `
 <div class="pictures-container">
 <div class="pictures">
   <div class="pictures_body">
@@ -303,7 +304,7 @@ export const picturesCategories = `
 </div>
 </div>
   `;
-export const mainHtml = `
+  const mainHtml = `
 <div class="title-cotainer">
         <h1 class="title">Art Quiz</h1>
         <div class="categories-container">
@@ -315,39 +316,41 @@ export const mainHtml = `
         </div>
       </div>
 `;
-export const mainHeader = `
+  const mainHeader = `
   <div class="header-left">
     <div class="header-logo"></div>
     <a id="main-menu-categories" href="#/" data-href="#/">
-      <div class="header-left-categories"><span id="headerCategoriesName"
+      <div class="header-left-categories click"><span id="headerCategoriesName"
           class="header-left-categories-name click">Pictures</span> categories</div>
     </a>
   </div>
   <div class="header-right">
-    <a href="#/pictures/" data-href="#/pictures/">
-    <div class="header-right-categories">Categories</div>
+    <a id="anouther-category-link" href="#/pictures/" data-href="#/pictures/">
+    <div id="anouther-category" class="header-right-categories click"></div>
     </a>
-    <div class="header-right-score">Score</div>
+    <div class="header-right-score"></div>
     <div class="header-settings">
       <div id="settings-open" class="header-settings_icon click"></div>
     </div>
   </div>
 `;
-export const questionsAuthorHeader = `
+  const questionsAuthorHeader = `
 <div class="questions-author-header">
-    <div id="questions-author-header-main"  class="click questions-author-header_exit-icon"></div>
-    <div class="questions-author-time-progress"></div>
+    <div id="questions-author-header-main"  class="questions-author-header_exit-icon click"></div>
+    <div id="time-progress" class="questions-author-time-progress"></div>
     <div class="questions-author-time-container">
       <div class="questions-author-time"><span class="questions-author-time_count"></span></div>
     </div>
   </div>
 `;
-export const questionsPictureHeader = `
+  const questionsPictureHeader = `
 <div class="questions-picture-header">
-<div id="questions-author-header-main"  class="click questions-author-header_exit-icon"></div>
-    <div class="questions-picture-time-progress"></div>
+<div id="questions-author-header-main"  class="questions-author-header_exit-icon click"></div>
+    <div id="time-progress" class="questions-picture-time-progress"></div>
     <div class="questions-picture-time-container">
       <div class="questions-picture-time"><span class="questions-picture-time_count"></span></div>
     </div>
   </div>
 `;
+  return [artistCategories, picturesCategories, mainHtml, mainHeader, questionsAuthorHeader, questionsPictureHeader];
+}
