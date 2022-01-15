@@ -290,7 +290,7 @@ class Routing {
       if (this.isTimeGame.classList.contains('active')) {
         this.display = document.querySelector('.questions-author-time_count');
         this.fiveMinutes = this.countTime.dataset.value;
-        timeGame(this.fiveMinutes, this.display, location);
+        this.settings.getTimeGame(this.fiveMinutes, this.display, location);
       }
 
       this.buttonsClick.forEach((clickBtn) => {
@@ -459,7 +459,7 @@ class Routing {
       if (this.isTimeGame.classList.contains('active')) {
         this.display = document.querySelector('.questions-picture-time_count');
         this.fiveMinutes = this.countTime.dataset.value;
-        timeGame(this.fiveMinutes, this.display, location);
+        this.settings.getTimeGame(this.fiveMinutes, this.display, location);
       }
       this.buttonsClick.forEach((clickBtn) => {
         const click = clickBtn;
@@ -590,7 +590,7 @@ class Routing {
     this.location = location;
     const modalExiteIcon = document.querySelector('.modal-exite-icon');
     modalExiteIcon.addEventListener('click', () => {
-      timeGame(this.diff, this.display, this.location);
+      this.settings.getTimeGame(this.diff, this.display, this.location);
     });
   }
 

@@ -41,6 +41,42 @@ export default class Settings {
     else this.settingsWindow.classList.add('active');
   }
 
+  getTimeGame(duration, display, location) {
+    this.duration = duration;
+    this.dis = display;
+    this.location = location;
+    const start = Date.now();
+    let diff;
+    let minutes;
+    let seconds;
+
+    const modalOverlay = document.getElementById('modalOverlay');
+    const timer = () => {
+      diff = Math.round(this.duration - ((Date.now() - start) / 1000 || 0));
+      minutes = Math.round(diff / 60 || 0);
+      seconds = Math.round(diff % 60 || 0);
+
+      minutes = minutes < 10 ? `0${minutes}` : minutes;
+      seconds = seconds < 10 ? `0${seconds}` : seconds;
+
+      this.dis.textContent = `${minutes}:${seconds}`;
+      if (modalOverlay.classList.contains('show')) {
+        diff += 1;
+        routing.repeatTimer(diff, this.dis, this.location);
+      } else if (diff) {
+        setTimeout(timer, 1000);
+      }
+      if (diff <= 0) {
+        if (this.location.includes('#/picture-question-')) {
+          routing.toLongAnswerPicture();
+        } else {
+          routing.toLongAnswerAuthor();
+        }
+      }
+    };
+    timer();
+  }
+
   onTimeGame() {
     this.settingsTimeGame.classList.toggle('active');
     if (this.settingsTimeGame.classList.contains('active')) {
