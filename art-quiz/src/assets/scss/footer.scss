@@ -1,0 +1,39 @@
+.footer {
+	position: relative;
+	z-index: 2;
+	padding: 0px 40px 18px 40px;
+	&-container {
+		margin-top: 20px;
+		display: flex;
+		justify-content: space-between;
+	}
+	&-rslogo {
+		width: 85px;
+		height: 31px;
+		background: url("/assets/img/svg/rslogo.svg") no-repeat;
+		background-position: center center;
+		background-size: cover;
+		opacity: 0.8;
+		cursor: pointer;
+		&:hover {
+			opacity: 1;
+		}
+		display: block;
+		@media (max-width: ($md4+px)) {
+			display: none;
+		}
+	}
+	&-author {
+		width: 272px;
+		height: 20px;
+		display: flex;
+		justify-content: space-between;
+		&_name {
+			@media (max-width: ($md4+px)) {
+				font-size: 14px;
+			}
+		}
+		&_year {
+		}
+	}
+}
